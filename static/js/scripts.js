@@ -2,17 +2,15 @@
   var whereAreWeHosted = 'http://localhost:5000';
   var CanvasApp;
   CanvasApp = {};
-  /*
-  	Init 
-  */
+
   CanvasApp.init = function() {
     CanvasApp.canvas = document.createElement('canvas');
-    CanvasApp.canvas.height = 400;
-    CanvasApp.canvas.width = 800;
-    document.getElementsByTagName('article')[0].appendChild(App.canvas);
-    CanvasApp.ctx = App.canvas.getContext("2d");
+    CanvasApp.canvas.height = 740;
+    CanvasApp.canvas.width = 960;
+    document.getElementsByTagName('article')[0].appendChild(CanvasApp.canvas);
+    CanvasApp.ctx = CanvasApp.canvas.getContext("2d");
     CanvasApp.ctx.fillStyle = "solid";
-    CanvasApp.ctx.strokeStyle = "#ECD018";
+    CanvasApp.ctx.strokeStyle = "#05761b";
     CanvasApp.ctx.lineWidth = 5;
     CanvasApp.ctx.lineCap = "round";
     CanvasApp.socket = io.connect(whereAreWeHosted);
@@ -20,6 +18,7 @@
       return CanvasApp.draw(data.x, data.y, data.type);
     });
     CanvasApp.draw = function(x, y, type) {
+		console.log('made it to here and your only a six pack in');
       if (type === "dragstart") {
         CanvasApp.ctx.beginPath();
         return CanvasApp.ctx.moveTo(x, y);
@@ -32,6 +31,7 @@
     };
   };
   $('canvas').live('drag dragstart dragend', function(e) {
+	  console.log("shit is happenin, best draw this!");
     var offset, type, x, y;
     type = e.handleObj.type;
     offset = $(this).offset();
