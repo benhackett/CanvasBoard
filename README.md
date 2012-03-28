@@ -8,4 +8,5 @@ It's currently implemented using Node.js, Socket.io, Express, HTML5 Canvas, jQue
 
 ### License
 It's currently released under the Apathy License: 
->Do whatever you want with it, or don't, whatever.
+
+> Do whatever you want with it, or don't, whatever.
