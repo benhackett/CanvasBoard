@@ -13,13 +13,30 @@ serve.get('/',function(req,res) {
 	console.log('howdy server');
 });
 
-io.sockets.on('connection', function(socket) {	
-	socket.on('drawClick', function(data) {
-      socket.broadcast.emit('draw', {
-        x: data.x,
-        y: data.y,
-        type: data.type
-      });
+//The buffer will be the last n user paths. 
+//New users will be sent the buffer so they see the previous n paths immedietly.
+var buffer = []; 
+
+io.sockets.on('connection', function(socket) {
+	
+	socket.json.send({ buffer: buffer });
+    socket.json.broadcast.emit('UserConnected', "User " + socket.id + " connected.");
+
+    socket.on('drawPath', function(message){
+        var msg = { message: [socket.id, message] };
+        buffer.push(msg);
+        if (buffer.length > 300){
+	        buffer.shift();	
+        } 
+        socket.json.broadcast.emit(msg);
+    });
+
+    socket.on('clientPath', function(data){
+    	socket.json.broadcast.emit('serverPath', data);
+    });
+
+    socket.on('disconnect', function(){
+        socket.json.broadcast.emit("UserDisconnected", "User " + socket.id + ' disconnected.');
     });
 });
 
